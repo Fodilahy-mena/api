@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>AJAX</h1>
+    <div class="facts">Loading...</div>
+
+    <script>
+        
+
+        const endpoint = 'https://cat-fact.herokuapp.com/facts';
+        const jeromePromise = fetch(endpoint);
+        const div = document.querySelector('.facts');
+
+        function handleError(err) {
+            console.log('Oh no!');
+            console.log(err);
+        }
+
+        async function go() {
+            let response = await jeromePromise;
+            let data = await response.json();
+            facts = data.all;
+            console.log(facts);
+            const html = facts.map(fact => {
+                return `
+                <h2>${fact.upvotes}</h2>
+                <h3>${fact.text}</h3>
+                `;
+            }).join('');
+            div.innerHTML = html;
+        }
+
+        go().catch(handleError);
+    </script>
+</body>
+</html>
